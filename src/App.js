@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
 
@@ -7,6 +7,18 @@ function App() {
         "Estudar React"
     ]);
     const [tarefa, setTarefa] = useState("");
+
+        useEffect(() => {
+        const tarefas = localStorage.getItem("@tarefa")
+        if (tarefas) {
+            setTarefas(JSON.parse(tarefas))
+        }
+
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("@tarefa", JSON.stringify(tarefas))
+    }, [tarefas]);
 
 
     function handlerRegister(e) {
