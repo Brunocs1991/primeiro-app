@@ -2,20 +2,54 @@ import {useState} from "react";
 
 function App() {
 
-    const [nome, setNome] = useState('Sujeito Programador')
+    const [nome, setNome] = useState("");
+    const [email, setEmail] = useState("");
+    const [idade, setIdade] = useState("");
 
-    function handlerCheckName(nome){
-        setNome(nome)
+    const [user, setUser] = useState({name: "", email: "", age: ""});
+
+    function handlerRegister(e) {
+        e.preventDefault();
+        setUser({name: nome, email: email, age: idade});
     }
 
     return (
         <div>
-            <h1>Component App</h1>
+            <h2>Cadrastrando Usuário</h2>
+            <form onSubmit={handlerRegister}>
+                <label> Nome: <br/> </label>
+                <input
+                    type="text"
+                    name="name"
+                    value={nome}
+                    onChange={(e) => setNome(e.target.value)}/>
+                <br/>
+                <label> E-mail: <br/></label>
+                <input
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                /><br/>
+                <label> Idade: <br/>
+                </label>
+                <input
+                    type="number"
+                    name="age"
+                    value={idade}
+                    onChange={(e) => setIdade(e.target.value)}
+                /><br/>
+                <button type={"submit"}>Registrar</button>
+            </form>
+
             <br/>
-            <h2>Olá: {nome}</h2>
-            <button onClick={() => handlerCheckName("Bruno Costa")}>
-                Mudar Nome
-            </button>
+            <br/>
+
+            <div>
+                <span>Bem vindo: {user.name}</span><br/>
+                <span>idade: {user.age}</span><br/>
+                <span>e-mail: {user.email}</span><br/>
+            </div>
         </div>
     );
 }
