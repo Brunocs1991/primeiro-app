@@ -2,43 +2,33 @@ import {useState} from "react";
 
 function App() {
 
-    const [nome, setNome] = useState("");
-    const [email, setEmail] = useState("");
-    const [idade, setIdade] = useState("");
+    const [tarefas, setTarefas] = useState([
+        "Pagar conta de luz",
+        "Estudar React"
+    ]);
+    const [tarefa, setTarefa] = useState("");
 
-    const [user, setUser] = useState({name: "", email: "", age: ""});
 
     function handlerRegister(e) {
         e.preventDefault();
-        setUser({name: nome, email: email, age: idade});
+        setTarefas([...tarefas, tarefa])
+        setTarefa("")
+
     }
 
     return (
         <div>
             <h2>Cadrastrando Usuário</h2>
             <form onSubmit={handlerRegister}>
-                <label> Nome: <br/> </label>
+                <label> Nome da tarefa: <br/> </label>
                 <input
+                    placeholder={"Digite o nome da terefa"}
                     type="text"
                     name="name"
-                    value={nome}
-                    onChange={(e) => setNome(e.target.value)}/>
+                    value={tarefa}
+                    onChange={(e) => setTarefa(e.target.value)}/>
                 <br/>
-                <label> E-mail: <br/></label>
-                <input
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                /><br/>
-                <label> Idade: <br/>
-                </label>
-                <input
-                    type="number"
-                    name="age"
-                    value={idade}
-                    onChange={(e) => setIdade(e.target.value)}
-                /><br/>
+
                 <button type={"submit"}>Registrar</button>
             </form>
 
@@ -46,9 +36,11 @@ function App() {
             <br/>
 
             <div>
-                <span>Bem vindo: {user.name}</span><br/>
-                <span>idade: {user.age}</span><br/>
-                <span>e-mail: {user.email}</span><br/>
+                <ul>
+                    {tarefas.map((t) => (
+                        <li key={t}>{t}</li>
+                    ))}
+                </ul>
             </div>
         </div>
     );
