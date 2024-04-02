@@ -1,59 +1,45 @@
 import {useEffect, useState} from "react";
+import './style.css'
 
 function App() {
 
-    const [tarefas, setTarefas] = useState([
-        "Pagar conta de luz",
-        "Estudar React"
-    ]);
-    const [tarefa, setTarefa] = useState("");
-
-        useEffect(() => {
-        const tarefas = localStorage.getItem("@tarefa")
-        if (tarefas) {
-            setTarefas(JSON.parse(tarefas))
-        }
-
-    }, []);
+    const [nutri, setNutri] = useState([]);
 
     useEffect(() => {
-        localStorage.setItem("@tarefa", JSON.stringify(tarefas))
-    }, [tarefas]);
+        function loadApi(){
+            let url = "https://sujeitoprogramador.com/rn-api/?api=posts";
+            fetch(url)
+                .then((r) => r.json())
+                .then((json) => {
+                    setNutri(json)
+                })
+                .catch((e) => alert(e))
+        }
+        loadApi();
+    },[])
 
-
-    function handlerRegister(e) {
-        e.preventDefault();
-        setTarefas([...tarefas, tarefa])
-        setTarefa("")
-
-    }
 
     return (
-        <div>
-            <h2>Cadrastrando Usuário</h2>
-            <form onSubmit={handlerRegister}>
-                <label> Nome da tarefa: <br/> </label>
-                <input
-                    placeholder={"Digite o nome da terefa"}
-                    type="text"
-                    name="name"
-                    value={tarefa}
-                    onChange={(e) => setTarefa(e.target.value)}/>
-                <br/>
+        <div className="container">
+            <header>
+                <strong>React nutri</strong>
+            </header>
 
-                <button type={"submit"}>Registrar</button>
-            </form>
+            {nutri.map((item) => {
+                return (
+                    <article key={item.id} className="post">
+                        <strong className={"titulo"}>
+                            {item.titulo}
+                        </strong>
+                        <img src={item.capa} alt={item.titulo} className={"capa"}/>
+                        <p className={"subtitulo"}>
+                            {item.subtitulo}
+                        </p>
+                        <a className={"botao"}>Acessar</a>
+                    </article>
+                )
+            })}
 
-            <br/>
-            <br/>
-
-            <div>
-                <ul>
-                    {tarefas.map((t) => (
-                        <li key={t}>{t}</li>
-                    ))}
-                </ul>
-            </div>
         </div>
     );
 }
